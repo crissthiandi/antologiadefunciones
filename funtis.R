@@ -25,12 +25,15 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
                otros_filtros=NULL,titulos_otros=NULL,rowotros=NULL,row3=" ",
                nombre=NULL){
   
-  
+  #checar nombre, si no lo hay se agrega
   if(is.null(nombre)){nombre=names(grupo[,columna])}
   
+  #para el conteo de multiple valores se usan vectores
+  #de no haber un vector en la entrada no se modifica la base
   if(is.vector(filtro2)| is.vector(filtro3) | is.vector(filtro1))
     {grupo=as.data.frame(grupo)}
   
+  #trabajo con vectores para filtro 2, usa remplazo
   if(is.vector(filtro2)){
     tam=length(filtro2)
     vec=grupo[,columna]
@@ -41,6 +44,8 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
     grupo=dplyr::as_tibble(grupo)
     filtro2=filtro2[1]
   }
+  
+  #trabajo con vectores para filtro 3, usa remplazo
   if(is.vector(filtro3)){
     tam=length(filtro3)
     vec=grupo[,columna]
@@ -51,6 +56,8 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
     grupo=dplyr::as_tibble(grupo)
     filtro3=filtro3[1]
   }
+  
+  #trabajo con vectores para filtro 1, usa remplazo
   if(is.vector(filtro1)){
     tam=length(filtro1)
     vec=grupo[,columna]
@@ -63,20 +70,13 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
   }
   
   
-  #tabla
+  #tabla de frecuencias
    tabla_=table(subset(x=grupo,
                              select = columna ))
-   
-  # tabla_taller=table(subset(x=grupo,
-  #                           subset = Asistio_Talleres_Iniciativa ==1, 
-  #                           select = columna ))
-  #sin taller
-  # tabla_sin_taller=table(subset(x=grupo,
-  #                               subset = Asistio_Talleres_Iniciativa ==0, 
-  #                               select = columna ))
+
   
   
-  
+  #se extra el valor deseado del objeto table() anterior
   j=c(filtro1,filtro2,filtro3,otros_filtros)
   total=length(j)
   tall=rep(0,total)
@@ -88,18 +88,16 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
   }
   
   
+  #verificación para conpatibilidad en nombre y row.name
   if(!is.null(otros_filtros)){rowotros=make.names(rep("",length(otros_filtros)),
                                           unique = T)}
   if(is.null(filtro3)){row3=titulo_3=filtro3}
 
   
-  # elemento=data.frame(row.names =c("",nombre,rownose,rowotros),
-  #                     estatus=c(titulo_si,titulo_no,titulo_nose,
-  #                               titulos_otros),
-  #                     Con_taller = tall, Sin_taller = sin_tall)
   
   if(is.null(nombre)){nombre=paste("Columna",columna)}
   
+  #se crean el objeto salida, data.frame()
   elemento=data.frame(row.names =c("",nombre,row3,rowotros),
                       Filtro=c(titulo_1,titulo_2,titulo_3,
                                 titulos_otros),
@@ -108,4 +106,4 @@ tabla=function(columna,grupo=base2,filtro1=1,filtro2=0,filtro3=NULL,
 }
 
 
-library("printr")
+#library("printr")
