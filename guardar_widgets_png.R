@@ -3,25 +3,28 @@
 
 #guarda la imagen
 
-guardar_imagen= function(widget){
+guardar_imagen= function(widget,direccion){
   
   #verifica installacion de htmlwidgets
   if(require('htmlwidgets')){
+  #verifica installacion de webshot
     if(require('webshot')){
       if(!webshot:::is_phantomjs_installed()){
+        #phantonjs es una libreria que se installa con ayuda de webshot
         webshot:::install_phantomjs()
       }
-      
+      #necesita stringr para str_c and str_remplace_all
       if(require(stringr)){
+        #verifica si existe la dirección donde guaradara los png, booleana
         check=dir.exists(paste0(getwd(),"/widgets/graficas_",as.character(Sys.Date())))
-        if(!check){
+        if(!check){#si no existe se crea la dirección
           dir.create(file.path(getwd(),"widgets",
                                stringr:::str_c("graficas_", stringr:::str_replace_all(
-                                 Sys.Date(),"-", "-"))))
+                                 Sys.Date(),"-", "-"))))#la dirección se nombra en base al dia de uso
         }
         
-        ruta<- paste0(getwd(), 
-                    stringr:::str_c("/widgets/graficas_", 
+        ruta<- paste0(getwd(), #ruta considerada desde la raiz
+                    stringr:::str_c("/widgets/graficas_",
                         stringr:::str_replace_all(Sys.Date(), "-", "-"), "/"))
         
         htmlwidgets:::saveWidget(widget, file=paste0(getwd(), "/widgets.html"))
@@ -30,6 +33,10 @@ guardar_imagen= function(widget){
                     stringr:::str_c("widget_", stringr:::str_replace_all(
                         Sys.Date(),"-", "-"),".png")),vwidth = 1200,vheight = 768)
         
+        #se verifica si se puede borrar un archivo, si se puede se borra
+        if(!tryCatch(expr = file.remove("widgets.html"))){
+          message("Este error es insignificante, puede ser ignorado")
+        }
         message("La imagen se guardo en el directorio de trabajo")
       } else {
         warning("se intentara instalar Stringr ")
