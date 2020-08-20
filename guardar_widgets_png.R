@@ -9,9 +9,9 @@
 guardar_imagen= function(widget,direccion=NULL){
   
   #verifica installacion de htmlwidgets
-  if(require('htmlwidgets')){
+  if(require("htmlwidgets")){
   #verifica installacion de webshot
-    if(require('webshot')){
+    if(require("webshot")){
       if(!webshot:::is_phantomjs_installed()){
         #phantonjs es una libreria que se installa con ayuda de webshot
         webshot:::install_phantomjs()
@@ -56,16 +56,16 @@ guardar_imagen= function(widget,direccion=NULL){
         message("La imagen se guardo en el directorio de trabajo")
       } else {
         warning("se intentara instalar Stringr ")
-        install.packages('stringr')  
+        install.packages("stringr")  
       }      
     } else {
       warning("se intentara instalar webshot ")
-      install.packages('webshot')
+      install.packages("webshot")
     }
     
   } else {
     warning("se intentara instalar htmlwidgets ")
-    install.packages('htmlwidgets')
+    install.packages("htmlwidgets")
   }
 }
 
