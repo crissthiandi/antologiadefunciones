@@ -6,8 +6,25 @@
 #dirección sera la forma en la que se le asigna una nueva sub ruta para 
 #guardar los png
 
-guardar_imagen= function(widget,direccion=NULL){
-  
+guardar_imagen= function(widget,direccion=NULL,fecha_registro=NULL,fecha_consulta=NULL){
+  #se asignan el sistema de fechas, por defecto esta hecho solo es una precaución
+  Sys.setlocale("LC_ALL", "Spanish")
+  #se verifica si la fecha a consultar es null
+  if(is.null(fecha_consulta)){
+    #se fija la fecha de registro, la que tendra como parte del nombre
+    #los archivos la actual
+    fecha_registro=Sys.Date()
+  }else{
+    #se considera hay un intento de asignar una fecha
+    #arreglar posibles problemas de asignación
+  }
+  if(is.null(fecha_registro)){
+    #se fija la fecha de consulta de los datos, esta esta relacionada con el calculos del widget
+    fecha_consulta=Sys.Date()
+  }else{
+    #se considera hay un intento de asignar una fecha
+    #arreglar posibles problemas de asignación
+  }
   #verifica installacion de htmlwidgets
   if(require("htmlwidgets")){
   #verifica installacion de webshot
@@ -29,25 +46,26 @@ guardar_imagen= function(widget,direccion=NULL){
         }
         #verifica si existe la dirección donde guaradara los png, booleana
         check=dir.exists(paste0(getwd(),direccion,"/widgets/graficas_",
-                                stringr:::str_replace_all(Sys.Date(),"-", "_")))
+                                stringr:::str_replace_all(fecha_registro,"-", "_")))
+                                #fecha_registro de la carpeta
         if(!check){#si no existe se crea la dirección
           #para no desechar la verificación se quito file.path() pero se recomienda usar xd
           dir.create(paste0(getwd(),direccion,"/widgets/",
                                stringr:::str_c("graficas_", stringr:::str_replace_all(
-                                 Sys.Date(),"-", "_"))),recursive = T)
+                                 fecha_registro,"-", "_"))),recursive = T)
           #recursive T para en caso de no existir carpetas las crea
           #la dirección se nombra en base al dia de uso
         }
         
         ruta<- paste0(getwd(),direccion, #ruta considerada desde la raiz
                     stringr:::str_c("/widgets/graficas_",
-                        stringr:::str_replace_all(Sys.Date(), "-", "_"), "/"))
+                        stringr:::str_replace_all(fecha_registro, "-", "_"), "/"))
         
         htmlwidgets:::saveWidget(widget, file=paste0(getwd(), "/widgets.html"))
         
         webshot:::webshot("widgets.html",paste0(ruta,
                     stringr:::str_c("widget_", stringr:::str_replace_all(
-                        Sys.Date(),"-", "_"),".png")),vwidth = 1200,vheight = 768)
+                        fecha_registro,"-", "_"),".png")),vwidth = 1200,vheight = 768)
         
         #se verifica si se puede borrar un archivo, si se puede se borra
         if(!tryCatch(expr = file.remove("widgets.html"))){
