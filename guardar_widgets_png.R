@@ -3,7 +3,10 @@
 
 #guarda la imagen
 
-guardar_imagen= function(widget,direccion){
+#dirección sera la forma en la que se le asigna una nueva sub ruta para 
+#guardar los png
+
+guardar_imagen= function(widget,direccion=NULL){
   
   #verifica installacion de htmlwidgets
   if(require('htmlwidgets')){
@@ -15,8 +18,18 @@ guardar_imagen= function(widget,direccion){
       }
       #necesita stringr para str_c and str_remplace_all
       if(require(stringr)){
+        #se checa que dirección inicie con un "/"
+        if(!is.null(direccion)){
+          #se anida porque no se deberia aplicar la función a algo NULL
+          #nos ahorramos warning o mensajes
+          if(!stringr::str_starts(direccion,pattern ="/" )){
+            #se completa la dirección
+            direccion=paste0("/",direccion)
+          }
+        }
         #verifica si existe la dirección donde guaradara los png, booleana
-        check=dir.exists(paste0(getwd(),"/widgets/graficas_",as.character(Sys.Date())))
+        check=dir.exists(paste0(getwd(),direccion,"/widgets/graficas_",
+                                as.character(Sys.Date())))
         if(!check){#si no existe se crea la dirección
           dir.create(file.path(getwd(),"widgets",
                                stringr:::str_c("graficas_", stringr:::str_replace_all(
