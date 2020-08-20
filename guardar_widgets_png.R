@@ -29,22 +29,25 @@ guardar_imagen= function(widget,direccion=NULL){
         }
         #verifica si existe la dirección donde guaradara los png, booleana
         check=dir.exists(paste0(getwd(),direccion,"/widgets/graficas_",
-                                as.character(Sys.Date())))
+                                stringr:::str_replace_all(Sys.Date(),"-", "_")))
         if(!check){#si no existe se crea la dirección
-          dir.create(file.path(getwd(),"widgets",
+          #para no desechar la verificación se quito file.path() pero se recomienda usar xd
+          dir.create(paste0(getwd(),direccion,"/widgets/",
                                stringr:::str_c("graficas_", stringr:::str_replace_all(
-                                 Sys.Date(),"-", "-"))))#la dirección se nombra en base al dia de uso
+                                 Sys.Date(),"-", "_"))),recursive = T)
+          #recursive T para en caso de no existir carpetas las crea
+          #la dirección se nombra en base al dia de uso
         }
         
-        ruta<- paste0(getwd(), #ruta considerada desde la raiz
+        ruta<- paste0(getwd(),direccion, #ruta considerada desde la raiz
                     stringr:::str_c("/widgets/graficas_",
-                        stringr:::str_replace_all(Sys.Date(), "-", "-"), "/"))
+                        stringr:::str_replace_all(Sys.Date(), "-", "_"), "/"))
         
         htmlwidgets:::saveWidget(widget, file=paste0(getwd(), "/widgets.html"))
         
         webshot:::webshot("widgets.html",paste0(ruta,
                     stringr:::str_c("widget_", stringr:::str_replace_all(
-                        Sys.Date(),"-", "-"),".png")),vwidth = 1200,vheight = 768)
+                        Sys.Date(),"-", "_"),".png")),vwidth = 1200,vheight = 768)
         
         #se verifica si se puede borrar un archivo, si se puede se borra
         if(!tryCatch(expr = file.remove("widgets.html"))){
