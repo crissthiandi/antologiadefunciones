@@ -23,7 +23,7 @@ son_iguales=function(vector1,vector2){
   if(columnas1==columnas2){
     repeat{
       
-    if(b[i]==a[i] | (is.na(b[i]) & is.na(a[i])) ){
+    if(ifelse(is.na(b[i]==a[i]),F,b[i]==a[i]) | (is.na(b[i]) & is.na(a[i])) ){
       
       i=i+1
       
@@ -36,9 +36,8 @@ son_iguales=function(vector1,vector2){
     }else{
       
       print("Algun elemento es diferente")
-      return(sprintf("el proceso se detuvo en la fila %d",i))
-      
-      break
+      print(sprintf("checa la fila %d",i))
+      i=1+i
     }
       
     }
