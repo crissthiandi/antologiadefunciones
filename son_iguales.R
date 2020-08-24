@@ -19,11 +19,11 @@ son_iguales=function(vector1,vector2){
   columnas1=length(a)
   columnas2=length(b)
   i=1
-
+  
   if(columnas1==columnas2){
     repeat{
       
-    if(b[i]==a[i]){
+    if(b[i]==a[i] | (is.na(b[i]) & is.na(a[i])) ){
       
       i=i+1
       
@@ -50,7 +50,8 @@ son_iguales=function(vector1,vector2){
 }
 
 
-son_iguales(a,b)
-a
-b
+son_iguales(target,current)
+a=target
+b=current
+
 
