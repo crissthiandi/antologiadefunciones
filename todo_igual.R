@@ -7,20 +7,40 @@ todo_igual=function(a,b,x_columnas=T,solo_valores=T,identico=F,columnas_dif=F,mi
     #checamos diferencia de colunas
     numero_columnas=ncol(a)
     aux=ncol(b)
+    #nombre de las variables por si algo sale mal
+    nombres=names(a)
     tab="     "
-    
-    if(ifelse(is.null(aux),yes = 0,no = aux)!=ifelse(is.null(numero_columnas),0,numero_columnas)){
+    #verifica si son de la misma clase
+    if(!is.data.frame(a) | !is.data.frame(b)){
+      stop("algun elemento no es data frame")
+    }
+    #si son diferente tamaño bye
+    if(aux!=numero_columnas){
       stop("Numero de columnas diferentes")
     }
     
-    for (i in numero_columnas) {
+    #ciclo de revisión
+    i=1
+    repeat{
       resultado=identical(a[,i],b[,i])
-      message(paste0(tab,sprintf("La columna %d identicidad= %c",i,resultado)))
+      # Sys.sleep(1)
+      #id del posible diferencia
+      message(sprintf("La columna %d identicidad= %s",i,resultado))
+      #si diferencia, muestra cual es
+      if(!resultado){
+        #nombre de la columna diferente y diferencias [impresión]
+        diferencia=all.equal(a[,i],b[,i])
+        message(paste0(tab,sprintf("La columna %s es diferente \n %s Posible diferencia= %s",nombres[i],tab,diferencia)))
+      }
+      #conteo del ciclo
+      i=i+1
+      #codificion de final del ciclo, si es mayor a 500 ciclos, break!
+      if(i>numero_columnas | i>500L){
+        break
+      }
     }
-      sprintf("    Hola2")
-    
-    
   }
 }
 
-todo_igual(c(2),c(3))
+#testeo
+todo_igual(Nacional,Nacional1[,-11])
