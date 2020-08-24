@@ -19,6 +19,8 @@ son_iguales=function(vector1,vector2){
   columnas1=length(a)
   columnas2=length(b)
   i=1
+  #cuenta errores
+  num_error=0
   
   if(columnas1==columnas2){
     repeat{
@@ -30,6 +32,7 @@ son_iguales=function(vector1,vector2){
       if(i>columnas1){
         print("El proceso se termino")
         print("Son iguales")
+        print(sprintf("    Hay en total %d errores",num_error))
         break
       }
       
@@ -38,6 +41,7 @@ son_iguales=function(vector1,vector2){
       print("Algun elemento es diferente")
       print(sprintf("checa la fila %d",i))
       i=1+i
+      num_error=num_error+1
     }
       
     }
