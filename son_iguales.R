@@ -1,32 +1,33 @@
-# son iguales para data frame
+# son iguales para vectores
 # Se verifica si dos bases son iguales
 # se diferencia de una función atravez de un boleano en que soporta 
 # elementos de tipo factor
 # Esta función verifica hasta posición, por lo que diferentes posiciones
 # en los elementos seran detectadas
 # al igual que diferentes dimensiones
-a=data.frame(x=c(1,7,4,3,"t",1),y=c(1,2,4,3,"c",1))
-b=a
 
-a
-b
+  #en chequeo de si aun aplica
+    # a=data.frame(x=c(1,7,4,3,"t",1),y=c(1,2,4,3,"c",1))
+    # b=a
+    # 
+    # a
+    # b
 
-son_iguales=function(base1,base2){
-  a=base1
-  b=base2
-  columnas1=ncol(a)
-  columnas2=ncol(b)
+son_iguales=function(vector1,vector2){
+  a=vector1
+  b=vector2
+  columnas1=length(a)
+  columnas2=length(b)
   i=1
-  filas=nrow(a)
-  
-  if(columnas1==columnas2 & filas==nrow(b)){
+
+  if(columnas1==columnas2){
     repeat{
       
-    if(sum(b[i,]==a[i,])==columnas1){
+    if(b[i]==a[i]){
       
       i=i+1
       
-      if(i>filas){
+      if(i>columnas1){
         print("El proceso se termino")
         print("Son iguales")
         break
