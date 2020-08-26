@@ -4,21 +4,26 @@
 
 # 
 mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
-lista = list(color="#B3B3B3",fill="#ff8c00")
+lista = list(color="#ff8c00",fill="#ff8c00",)
 
 filtro=mpg2 %>% filter(manufacturer=="jeep")
 
-mpg2 %>% ggplot(aes(y=displ,x=cty,colour=class))+
-  geom_line(size=1)+
-  # facet_wrap(~manufacturer) +
-  yucatan_filtro(manufacturer=="jeep",calculate_per_facet = T,use_direct_label = F,
-                 parametros_selecion =  lista)
-  
+nuevo_tema=function(...) {
+  if(...){
+    ggplot2::theme_update(tema_yuc)
+  }
+}
+
+
+
+
+
 p2= ggplot(data = mpg2) +geom_line(data = filtro,mapping = aes(y=displ,x=cty))+tema_no_yuc
 
 pp+p2
-# librerias=c("dplyr","rlang","ggplot2","gghighlight")
 
+# librerias=c("dplyr","rlang","ggplot2","gghighlight")
+# 
 # sapply(librerias,require, character.only = TRUE)
 
 
@@ -66,7 +71,7 @@ check_bad_predicates <- function(x) {
     
     abort(
       sprintf(
-        "USe ya sea `==`?: %s",
+        "Use ya sea `==`?: %s",
         paste(bad_x_deparsed, collapse = ",")
       )
     )
