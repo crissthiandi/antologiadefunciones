@@ -2,7 +2,7 @@
 
 #Pruebas
 
-# 
+
 mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
 lista = list(color="#ff8c00",fill="#ff8c00",)
 
@@ -18,7 +18,7 @@ ggplot()+
   geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
   geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
             fill='red', alpha=0.1) +theme_classic()+
-  facet_wrap(~manufacturer) 
+  facet_wrap(~manufacturer)
 #se deja atras el filtrado
 +
   yucatan_filtro(manufacturer=="jeep",calculate_per_facet = T,use_direct_label = F,
@@ -31,10 +31,30 @@ p2= ggplot(data = mpg2) +geom_line(data = filtro,mapping = aes(y=displ,x=cty))+t
 
 pp+p2
 
-# librerias=c("dplyr","rlang","ggplot2","gghighlight")
-# 
-# sapply(librerias,require, character.only = TRUE)
+librerias=c("dplyr","rlang","ggplot2","gghighlight")
 
+sapply(librerias,require, character.only = TRUE)
+
+
+#función hermosa 
+seleccion_filtro=function(...,datos,color){
+
+  predicates <- enquos(...)
+  check_bad_predicates(predicates)
+  
+  filtro=datos %>% filter(...)
+  
+  
+  return(geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
+            fill=color, alpha=0.1))
+}
+
+# testeo de la función de arriba ----
+ggplot()+
+  geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
+  seleccion_filtro(manufacturer=="jeep",datos = mpg2,color = 'red')+
+  theme_classic()+
+  facet_wrap(~manufacturer)
 
 
 yucatan_filtro=function(..., n = NULL, parametros_selecion = list(), 
