@@ -14,6 +14,15 @@ nuevo_tema=function(...) {
   }
 }
 
+ggplot()+
+  geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
+  geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
+            fill='red', alpha=0.1) +theme_classic()+
+  facet_wrap(~manufacturer) 
+#se deja atras el filtrado
++
+  yucatan_filtro(manufacturer=="jeep",calculate_per_facet = T,use_direct_label = F,
+                 unhighlighted_params =  lista,use_group_by = T)
 
 
 
