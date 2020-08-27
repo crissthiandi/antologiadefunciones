@@ -43,4 +43,4 @@ todo_igual=function(a,b,x_columnas=T,solo_valores=T,identico=F,columnas_dif=F,mi
 }
 
 #testeo
-todo_igual(Nacional,Nacional1[,-11])
+# todo_igual(Nacional,Nacional1[,-11])
