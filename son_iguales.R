@@ -31,7 +31,7 @@ son_iguales=function(vector1,vector2){
       
       if(i>columnas1){
         print("El proceso se termino")
-        print("Son iguales")
+        if(num_error==0){print("Son iguales")}
         print(sprintf("    Hay en total %d errores",num_error))
         break
       }
@@ -53,8 +53,8 @@ son_iguales=function(vector1,vector2){
 }
 
 
-son_iguales(target,current)
-a=target
-b=current
+# son_iguales(target,current)
+# a=target
+# b=current
 
 
