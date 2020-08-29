@@ -1,35 +1,35 @@
 
 
-#Pruebas
+# #Pruebas -----
+# 
+# 
+# mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
+lista = list(color="black",fill="#ff8c00")
 
-
-mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f") & class != "2seater")
-lista = list(color="#ff8c00",fill="#ff8c00",)
-
-filtro=mpg2 %>% filter(manufacturer=="jeep")
-
-nuevo_tema=function(...) {
-  if(...){
-    ggplot2::theme_update(tema_yuc)
-  }
-}
-
-ggplot()+
-  geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
-  geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
-            fill='red', alpha=0.1) +theme_classic()+
-  facet_wrap(~manufacturer)
-#se deja atras el filtrado
-+
-  yucatan_filtro(manufacturer=="jeep",calculate_per_facet = T,use_direct_label = F,
-                 unhighlighted_params =  lista,use_group_by = T)
-
-
-
-
-p2= ggplot(data = mpg2) +geom_line(data = filtro,mapping = aes(y=displ,x=cty))+tema_no_yuc
-
-pp+p2
+# filtro=mpg2 %>% filter(manufacturer=="jeep")
+# 
+# nuevo_tema=function(...) {
+#   if(...){
+#     ggplot2::theme_update(tema_yuc)
+#   }
+# }
+# 
+# ggplot()+
+#   geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
+#   geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
+#             fill='red', alpha=0.1) +theme_classic()+
+#   facet_wrap(~manufacturer)
+# #se deja atras el filtrado
+# +
+#   yucatan_filtro(manufacturer=="jeep",calculate_per_facet = T,use_direct_label = F,
+#                  unhighlighted_params =  lista,use_group_by = T)
+# 
+# 
+# 
+# 
+# p2= ggplot(data = mpg2) +geom_line(data = filtro,mapping = aes(y=displ,x=cty))+tema_no_yuc
+# 
+# pp+p2
 
 librerias=c("dplyr","rlang","ggplot2","gghighlight")
 
@@ -37,7 +37,7 @@ sapply(librerias,require, character.only = TRUE)
 
 
 #función hermosa 
-seleccion_filtro=function(...,datos,color){
+seleccion_filtro=function(...,datos,color,limitesx=c(-Inf,Inf),limitesy=c(-Inf,Inf),alfa=0.1){
 
   predicates <- enquos(...)
   check_bad_predicates(predicates)
@@ -45,16 +45,16 @@ seleccion_filtro=function(...,datos,color){
   filtro=datos %>% filter(...)
   
   
-  return(geom_rect(data=filtro,aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf),
-            fill=color, alpha=0.1))
+  return(geom_rect(data=filtro,aes(xmin=limitesx[1],xmax=limitesx[2],ymin=limitesy[1], ymax=limitesy[2]),
+            fill=color, alpha=alfa))
 }
 
 # testeo de la función de arriba ----
-ggplot()+
-  geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
-  seleccion_filtro(manufacturer=="jeep",datos = mpg2,color = 'red')+
-  theme_classic()+
-  facet_wrap(~manufacturer)
+# ggplot()+
+#   geom_line(data = mpg2,aes(y=displ,x=cty,colour=class),size=1)+
+#   seleccion_filtro(manufacturer=="jeep",datos = mpg2,color = 'red')+
+#   theme_classic()+
+#   facet_wrap(vars(manufacturer))
 
 
 yucatan_filtro=function(..., n = NULL, parametros_selecion = list(), 
