@@ -6,6 +6,7 @@ tienen_lo_mismo = function(base_x, base_y,por_join=F,por_merge=T,ayuda=F,...) {
   if(ayuda){browseURL("https://rpubs.com/Rortizdu/140174")}
   #parche para inconcistencias
   if(!por_merge){por_join=T}
+
   #se checan los nombres
   nombre=names(base_x)
   if(length(nombre)==1){
@@ -20,32 +21,37 @@ tienen_lo_mismo = function(base_x, base_y,por_join=F,por_merge=T,ayuda=F,...) {
   }else{
     names(base_y)[1]="base_col"
   }
-  #se checa join
   
+  #respaldo para ver quienes no tiene pareja
+  base_x["Originales_x"]=base_x["base_col"]
+  
+  #se checa join
   if(por_join){
     base_output=as.list(NULL)
-    base_output[["en_comun"]]=base_x %>% inner_join(base_y ,by="base_col")
+    base_output[["en_comun"]]=base_x %>% inner_join(base_y ,by="base_col") %>% select(base_col)
     base_output[["solo_en_x"]]=base_x %>% left_join(base_y ,by="base_col")
     base_output[["solo_en_y"]]=base_x %>% right_join(base_y ,by="base_col")
-    base_output[["Excluidos"]]=base_x %>% filter(base_output$en_comun)
+    base_output[["Excluidos"]]=base_x %>% right_join(base_y ,by="base_col") %>%filter(is.na(Originales_x))
+    message("Excluido incluye los elementos que no estan en x pero si en y")
   }else{
+    message("Use all=T para obtener los elementos que no estan en x pero si en y")
     base_output=merge(base_x,base_y,by = "base_col",...)
   }
   
   return(base_output)
 }
 
-#testing
+#testing ----
 
-a=tibble(
-  x=1:5
-)
-
-b=tibble(
-  y=2:8
-)
-
-tienen_lo_mismo(a,b,all.y=T)
+# a=tibble(
+#   x=1:5
+# )
+# 
+# b=tibble(
+#   y=2:8
+# )
+# 
+# tienen_lo_mismo(a,b,por_merge = T,all=T)
 
 
 
