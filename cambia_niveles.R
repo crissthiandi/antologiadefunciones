@@ -5,9 +5,9 @@ cambia_niveles=function(vector,niveles,mayusculas=F){
   #modifica el vector
   aux=as.factor(aux)
   print(levels(aux))
-  salir=readline("¿Desea salir por cuestiones de nivel? \n True \n False \n")
+  salir=readline("¿Desea salir por cuestiones de nivel? \t \n True \n [intro para continuar] \n")
   
-  if(salir){
+  if(!salir==""|isTRUE(salir)){
     return(NULL)
   }
   
