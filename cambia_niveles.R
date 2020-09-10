@@ -1,18 +1,22 @@
 #estafunción modifica los valores de una función
 
-cambia_niveles=function(vector,niveles){
+cambia_niveles=function(vector,niveles,mayusculas=F){
   aux=vector
   #modifica el vector
   aux=as.factor(aux)
   print(levels(aux))
-  salir=readline("¿Desea salir por cuestiones de nivel? \n True \n False")
+  salir=readline("¿Desea salir por cuestiones de nivel? \n True \n False \n")
   
   if(salir){
     return(NULL)
   }
   
   #asigna los nuevos niveles
-  levels(aux)=niveles
+  if(mayusculas){
+    levels(aux)=stringr::str_to_upper(levels(aux))
+  }else{
+    levels(aux)=niveles
+  }
   
   return(aux)
 }
