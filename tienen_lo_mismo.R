@@ -22,7 +22,8 @@ tienen_lo_mismo = function(base_x, base_y,por_join=F,por_merge=T,ayuda=F,FULL=F,
   if(length(nombre)==1){
     names(base_y)="base_col"
   }else{
-    names(base_y)[1]="base_col"
+    nombre[1]="base_col"
+    names(base_y)=nombre
   }
   
   #respaldo para ver quienes no tiene pareja
@@ -36,7 +37,7 @@ tienen_lo_mismo = function(base_x, base_y,por_join=F,por_merge=T,ayuda=F,FULL=F,
       base_output[["en_comun"]]=base_x %>% inner_join(base_y ,by="base_col") %>% select(base_col)
       message("Excluido_y incluye los elementos que no estan en x pero si en y")
     }
-    base_output[["todo_en_y"]]=base_x %>% right_join(base_y ,by="base_col")
+    base_output[["todo_en_y"]]=base_x %>% right_join(base_y ,by="base_col") %>% select(base_col,Originales_x)
     base_output[["Excluidos_y"]]=base_x %>% right_join(base_y ,by="base_col") %>%filter(is.na(Originales_x))
   }else{
     message("Use all=T para obtener los elementos que no estan en x pero si en y")
@@ -54,7 +55,9 @@ tienen_lo_mismo = function(base_x, base_y,por_join=F,por_merge=T,ayuda=F,FULL=F,
     
     #se cambia nombre de los elementos recursivos para que tenga sentido que falta
     names(base_output[["todo_en_x"]])=c("base_col","Originales_y")
-    names(base_output[["Excluidos_x"]])=c("base_col","Originales_y")
+    nombre=names(base_output[["Excluidos_x"]])
+    nombre[2]="Originales_y"
+    names(base_output[["Excluidos_x"]])=nombre
   }
   
 
