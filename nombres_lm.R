@@ -10,13 +10,27 @@ names(base_Modelar)=variables
 remove(variables)
 
 
-nombres= function(modelo) {
+nombres_lm= function(modelo) {
   stopifnot(is.list(modelo) | is.lm(modelo))
   if(!exists("seleccion")){
     message("Se debe llamar la base selección")#aquella que tiene los nombres con sus codigos
   }
 
+  coeficientes=names(modelo[["coefficients"]])
+  filtro=str_starts(coeficientes,"c")
   
+  coeficientes=coeficientes[filtro]
+  a=as.character(modelo[["call"]][["data"]])
+  nombres=names(get(a))
+  
+  for (i in length(coeficientes)) {
+    #encuentra la primera posición
+    posicion=grep(coeficientes[i],nombres)[1]
+  }
+  
+  
+  # coeficientes
+  # seleccion
 }
 
 is.lm = function(object){
