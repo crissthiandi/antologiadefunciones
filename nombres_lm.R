@@ -27,25 +27,23 @@ nombres_lm= function(modelo) {
   a=as.character(modelo[["call"]][["data"]])
   nombres=names(get(a))
   
-  if(a=="estados"){
-    dos=3
-  }else{
-    dos=2
-  }
+  dos=as.integer(grep("c1",nombres)[1])-1
+
   
   for (i in 1:length(coeficientes)) {
     #encuentra la primera posición
     posicion=grep(coeficientes[i],nombres)[1]
     #condicional para numeros, base seleccion
-    if(posicion+dos<16){
+    if(posicion+dos < 16){
       cat(coeficientes[i],": ",variables_aux[posicion+dos],"\n")
     }else{
       #busca en seleccion base
-      newpos=grep(variables_aux[posicion+2],seleccion$id_indicador)[1]
+      newpos=grep(variables_aux[posicion+dos],seleccion$id_indicador)[1]
       #imprime en seleccion base
       cat(coeficientes[i],": ",seleccion$select[newpos],"\n")
     }
   }
+  
 }
 
 is.lm = function(object){
