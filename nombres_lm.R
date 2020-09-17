@@ -16,6 +16,9 @@ nombres_lm= function(modelo) {
   if(!exists("seleccion")){
     message("Se debe llamar la base selección")#aquella que tiene los nombres con sus codigos
   }
+  if(!exists("variables_aux")){
+    message("Se debe llamar el vector variables_aux o hacer la codificación")#aquella que tiene los nombres con sus codigos
+  }
 
   coeficientes=names(modelo[["coefficients"]])
   filtro=str_starts(coeficientes,"c")
@@ -24,12 +27,18 @@ nombres_lm= function(modelo) {
   a=as.character(modelo[["call"]][["data"]])
   nombres=names(get(a))
   
+  if(a=="estados"){
+    dos=3
+  }else{
+    dos=2
+  }
+  
   for (i in 1:length(coeficientes)) {
     #encuentra la primera posición
     posicion=grep(coeficientes[i],nombres)[1]
     #condicional para numeros, base seleccion
-    if(posicion+2<16){
-      cat(coeficientes[i],": ",variables_aux[posicion+2],"\n")
+    if(posicion+dos<16){
+      cat(coeficientes[i],": ",variables_aux[posicion+dos],"\n")
     }else{
       #busca en seleccion base
       newpos=grep(variables_aux[posicion+2],seleccion$id_indicador)[1]
