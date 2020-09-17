@@ -16,4 +16,14 @@ nombres= function(modelo) {
     message("Se debe llamar la base selección")#aquella que tiene los nombres con sus codigos
   }
 
+  
+}
+
+is.lm = function(object){
+  clase=class(object)
+  if(clase=="lm"){
+    return(T)
+  }else{
+    return(F)
+  }
 }
