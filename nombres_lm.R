@@ -11,7 +11,7 @@
   # remove(variables)
 
 
-nombres_lm= function(modelo) {
+nombres_lm= function(modelo,dos=NULL) {
   stopifnot(is.list(modelo) | is.lm(modelo))
   if(!exists("seleccion")){
     message("Se debe llamar la base selección")#aquella que tiene los nombres con sus codigos
@@ -27,7 +27,11 @@ nombres_lm= function(modelo) {
   a=as.character(modelo[["call"]][["data"]])
   nombres=names(get(a))
   
-  dos=as.integer(grep("c1",nombres)[1])-1
+  
+  if(is.null(dos)){
+    primer_elemento="Porcentaje.de.población..en.situación.de.pobreza"
+    dos=-as.integer(grep("c1",nombres)[1])+grep(primer_elemento,variables_aux)[1]
+  }
 
   
   for (i in 1:length(coeficientes)) {
