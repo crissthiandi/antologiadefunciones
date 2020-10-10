@@ -24,6 +24,11 @@ nombres_lm= function(modelo,dos=NULL) {
   filtro=str_starts(coeficientes,"c")
   
   coeficientes=coeficientes[filtro]
+  
+  #encuentra c11
+  
+  cambio_de_c=grep("Coeficiente.de.Gini",variables_aux)[1]
+  
   a=as.character(modelo[["call"]][["data"]])
   nombres=names(get(a))
   
@@ -38,7 +43,7 @@ nombres_lm= function(modelo,dos=NULL) {
     #encuentra la primera posición
     posicion=grep(coeficientes[i],nombres)[1]
     #condicional para numeros, base seleccion
-    if(posicion+dos < 16){
+    if(posicion+dos < cambio_de_c+1){
       cat(coeficientes[i],": ",variables_aux[posicion+dos],"\n")
     }else{
       #busca en seleccion base
@@ -47,7 +52,7 @@ nombres_lm= function(modelo,dos=NULL) {
       cat(coeficientes[i],": ",seleccion$select[newpos],"\n")
     }
   }
-  
+  return(dos)
 }
 
 is.lm = function(object){
