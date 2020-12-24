@@ -5,11 +5,12 @@ testeo <- function(formula,data,subset, weights, na.action, method = "qr",
                    contrasts = NULL, offset, ...) {
   ret.x <- x
   ret.y <- y
-  cl <- match.call() #objeto de llamadas
-  mf <- match.call(expand.dots = FALSE) #objeto llamada para acompletar
-  #llama los elementos del enviroment esta forma es fija
+  cl <- match.call() #objeto de llamado dentro de la función
+  #en este ejemplo seria el testeo(bla,bla,...)
+  mf <- match.call(expand.dots = FALSE) #lo de arriba sin los puntos (...)
+  #llama los elementos del enviroment esta forma es fija (?)
   m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"), names(mf), 0L)#vector de llamadas
+               "offset"), names(mf), 0L)#vector de llamadas (?)
   mf <- mf[c(1L, m)]#supongo que el numero de parametros a usar (?)
   mf$drop.unused.levels <- TRUE #asignación de el primer parametro
   #output:   match.call(drop.unused.levels = TRUE)
@@ -94,10 +95,19 @@ llamada
 eval(llamada) #se evaluo la llamada
 evalq(print(2))
 
+#haciendo una llamada desde cero dentro de una función
 
+hola=function(a=0,b=1,c=2){
+  llamada=match.call(expand.dots = FALSE) # se crea una llamada sin ... parametro
+  print(llamada)
+  llamada[[1]]=quote(Aqui_debe_ir_la_funcion)
+  print(llamada)
+  llamada[[1]]=quote(aqui_la_paqueteria::Aqui_debe_ir_la_funcion)
+  print(llamada)
 
+}
 
-
+hola(a="que tal")
 
 
 
