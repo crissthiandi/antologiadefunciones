@@ -75,3 +75,33 @@ testeo <- function(formula,data,subset, weights, na.action, method = "qr",
 }
 testeo(Sepal.Length ~ Petal.Length + Petal.Width,data)
 lm(Sepal.Length ~ Petal.Length,data,tol = 1e-17) # tol es un parametro de lm.fit
+
+
+#Call section
+#se hacen llamada desde la función eval()
+
+#imprimiendo desde eval()
+
+#como no hacerlo
+
+eval(print(2)) #repite el proceso, ya que la entrado no es un call class
+evalq(print(2)) #entiende que el objeto ingresado es de tipo quote y realiza el ajuste
+
+#como hacerlo
+llamada=quote(print(2)) #creas el quote
+llamada
+
+eval(llamada) #se evaluo la llamada
+evalq(print(2))
+
+
+
+
+
+
+
+
+
+
+
+
