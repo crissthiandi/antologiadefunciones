@@ -28,7 +28,6 @@ seleccion_filtro=function(...,datos,color,limitesx=c(-Inf,Inf),limitesy=c(-Inf,I
 #   facet_wrap(vars(manufacturer))
 
 
-#desde gghighlight
 check_bad_predicates <- function(x) {
   have_name_idx <- have_name(x)
   
