@@ -5,15 +5,16 @@ testeo <- function(formula,data,subset, weights, na.action, method = "qr",
                    contrasts = NULL, offset, ...) {
   ret.x <- x
   ret.y <- y
-  cl <- match.call()
-  mf <- match.call(expand.dots = FALSE)
+  cl <- match.call() #objeto de llamadas
+  mf <- match.call(expand.dots = FALSE) #objeto llamada para acompletar
   #llama los elementos del enviroment esta forma es fija
   m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
-  mf$drop.unused.levels <- TRUE
-  mf[[1L]] <- quote(stats::model.frame)
-  mf <- eval(mf)
+               "offset"), names(mf), 0L)#vector de llamadas
+  mf <- mf[c(1L, m)]#supongo que el numero de parametros a usar (?)
+  mf$drop.unused.levels <- TRUE #asignación de el primer parametro
+  #output:   match.call(drop.unused.levels = TRUE)
+  mf[[1L]] <- quote(stats::model.frame) #crea texto que se agrega en la posicion 1L
+  mf <- eval(mf) #Se evalua la llamada anterior, el objeto debe ser call class
   if (method == "model.frame")
     return(mf)
   else if (method != "qr")
@@ -73,4 +74,4 @@ testeo <- function(formula,data,subset, weights, na.action, method = "qr",
   z
 }
 testeo(Sepal.Length ~ Petal.Length + Petal.Width,data)
-lm(Sepal.Length ~ Petal.Length,data,tol = 1e-17)
+lm(Sepal.Length ~ Petal.Length,data,tol = 1e-17) # tol es un parametro de lm.fit
