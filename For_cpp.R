@@ -1,20 +1,27 @@
 
 
-for_cpp=function(i=0,n=9,op="++",...){
+for_cpp=function(i=0,n=9,op="++"){
   if(op=="++"){
     print("yes honey")
   }
-  
+
   for (j in i:n) {
-    make
+    #do.call(...)
+    #call(...)
+    print("yes honey")
   }
 }
+
+#testeo de for_cpp
+for_cpp(0,9){
+  print("hola")
+}
+
 
 library(foreach)
 
 ?`foreach-package`
 
-for_cris(i=0,2,"++") 
 
 foreach(i=array(0:9)) %do% {
   print(i)
@@ -87,7 +94,7 @@ while (abs(d)>10**(-10)) {
 y
 plot(y)
 
-#forma corta 
+#forma corta
 
 x=seq(-1,1,length.out = 1000)
 y=x^x
