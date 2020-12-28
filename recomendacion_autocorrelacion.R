@@ -21,19 +21,25 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
     message("Objeto_cf no encontrado o hay más de un parametro en la función")
     stop()
   }
-  print(class(p))
   print(llamada)
+
+  #Zona de plot not True
+  a=llamada[[2]]
+  a=as.character(a)
+  if(length(a)!=3 | as.logical(a[3])){
+    message("EL objeto debe ser un ACF o PACF con parametro plot = FALSE")
+    message("Ver el ejemplo de la documentación")
+    eval(?recomendacion_autocorrelaciones)
+
+  }
+  #si la salida es un vector de 3 elementos entonces hay dos parametros
+
+
+  #obtener los intervalos de confianza dando el objeto
+  intervalo_confianza_acf(objeto_cf)
+
 }
 
-
-# #Zona de cuidado
-# a=llamada[[2]]
-# a=as.character(a)
-# a
-# #si la salida es un vector de 3 elementos entonces hay dos parametros
-#
-# llamada[[2]]
-# acf()
 
 
 #get de ci en la siguiente función
@@ -68,7 +74,7 @@ intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab =
   Npgs <- 1L
   nr <- nser
   if (nser > 1L) {
-    #sn.abbr <- if (nser > 2L)
+    sn.abbr <- if (nser > 2L)
       abbreviate(snames)
     else snames
     if (nser > max.mfrow) {
