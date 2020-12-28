@@ -37,7 +37,7 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
 
 
 #get de ci en la siguiente función
-pepe=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
+intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
           ylim = NULL, main = NULL, ci.col = "blue", ci.type = c("white",
                                                                  "ma"), max.mfrow = 6, ask = Npgs > 1 && dev.interactive(),
           mar = if (nser > 2) c(3, 2, 2, 0.8) else par("mar"), oma = if (nser >
@@ -68,16 +68,16 @@ pepe=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
   Npgs <- 1L
   nr <- nser
   if (nser > 1L) {
-    sn.abbr <- if (nser > 2L)
+    #sn.abbr <- if (nser > 2L)
       abbreviate(snames)
     else snames
     if (nser > max.mfrow) {
       Npgs <- ceiling(nser/max.mfrow)
       nr <- ceiling(nser/Npgs)
     }
-    opar <- par(mfrow = rep(nr, 2L), mar = mar, oma = oma,
-                mgp = mgp, ask = ask, xpd = xpd, cex.main = cex.main)
-    on.exit(par(opar))
+    # opar <- par(mfrow = rep(nr, 2L), mar = mar, oma = oma,
+    #             mgp = mgp, ask = ask, xpd = xpd, cex.main = cex.main)
+    # on.exit(par(opar))
     if (verbose) {
       message("par(*) : ", appendLF = FALSE, domain = NA)
       str(par("mfrow", "cex", "cex.main", "cex.axis",
@@ -112,27 +112,28 @@ pepe=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
       clim <- if (with.ci.ma && i == j)
         clim0 * sqrt(cumsum(c(1, 2 * x$acf[-1, i, j]^2)))
       else clim0
-      plot(x$lag[, i, j], x$acf[, i, j], type = type,
-           xlab = xlab, ylab = if (j == 1)
-             ylab
-           else "", ylim = ylim, ...)
-      abline(h = 0)
+      # plot(x$lag[, i, j], x$acf[, i, j], type = type,
+      #      xlab = xlab, ylab = if (j == 1)
+      #        ylab
+      #      else "", ylim = ylim, ...)
+      # abline(h = 0)
       if (with.ci && ci.type == "white")
-        abline(h = c(clim, -clim), col = ci.col, lty = 2)
+        clim=clim
+        # abline(h = c(clim, -clim), col = ci.col, lty = 2)
       else if (with.ci.ma && i == j) {
         clim <- clim[-length(clim)]
-        lines(x$lag[-1, i, j], clim, col = ci.col, lty = 2)
-        lines(x$lag[-1, i, j], -clim, col = ci.col,
-              lty = 2)
+        # lines(x$lag[-1, i, j], clim, col = ci.col, lty = 2)
+        # lines(x$lag[-1, i, j], -clim, col = ci.col,
+              # lty = 2)
       }
-      title(if (!is.null(main))
-        main
-        else if (i == j)
-          snames[i]
-        else paste(sn.abbr[i], "&", sn.abbr[j]), line = if (nser >
-                                                            2)
-          1
-        else 2)
+      # title(if (!is.null(main))
+        # main
+        #else if (i == j)
+         # snames[i]
+        #else paste(sn.abbr[i], "&", sn.abbr[j]), line = if (nser >
+                                                          #  2)
+         # 1
+        #else 2)
     }
     if (Npgs > 1) {
       mtext(paste("[", I, ",", J, "]"), side = 1, line = -0.2,
@@ -140,6 +141,6 @@ pepe=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
     }
     dev.flush()
   }
-  return(clim0)
+  return(clim)
 
 }
