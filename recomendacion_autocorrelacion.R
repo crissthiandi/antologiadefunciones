@@ -1,3 +1,6 @@
+#Codigo hecho y en mantenimiento por @crissthiandi <albertocenaa@gmail.com>
+#última versión en github.com/crissthiandi/antologiadefunciones
+
 #' Recomendaciones a un grafico ACF o PACF
 #'
 #' Obten un recomendación a tu ajuste de series de tiempo ACF o PACF
@@ -40,7 +43,7 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
   cat("\nLos siguientes elementos son propuestas de r: ")
   posibles_lags=objeto_cf$lag[mayores]
   cat(posibles_lags)
-  cat("Proponemos que r sea:",posibles_lags[length(posibles_lags)])
+  cat("\nProponemos que r sea:",posibles_lags[length(posibles_lags)])
 
   if(print_IC){
     cat("\nEl IC de modelo es: ",IC)
