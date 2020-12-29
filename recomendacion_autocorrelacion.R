@@ -21,7 +21,6 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
     message("Objeto_cf no encontrado o hay más de un parametro en la función")
     stop()
   }
-  print(llamada)
 
   #Zona de plot not True
   a=llamada[[2]]
@@ -42,8 +41,32 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
 
 
 
-#get de ci en la siguiente función
-intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
+#' Obten el intervalo de confianza de un objeto ACF o PACF
+#'
+#' Atravez del metodo usado en Stats se obtiene el valor de los intervalos de confianza
+#'
+#'
+#' Esta pensado para su uso en Rutinas de la paqueteria TSRutina, aunque su uso como función independiente
+#' deberia ser sencillo, se recomienda usarse solo si se conoce sobre el codigo y el tema.
+#'
+#' @param x Objeto ACF o PACF
+#' @param ci Valor de Alpha, por defecto 0.95
+#' @param type Tipo de linea en la grafica (No usar, deshabilitado)
+#' @param xlab (No usar, deshabilitado)
+#' @param ylab (No usar, deshabilitado)
+#' @param ylim (No usar, deshabilitado)
+#' @param main (No usar, deshabilitado)
+#' @param ci.col (No usar, deshabilitado)
+#' @param ci.type Tipo de intervalo de confianza por defecto es white
+#' @param ... Parametros que se pueden pasar a el grafico
+#'
+#' @return Valor numerico que representa el limite del intervalo de confianza
+#' @export
+#'
+#' @examples
+#' base=data.frame(x=seq(Sys.Date(),by="days",length=20),y=1:20*3+runif(1))
+#' p=acf(base$y,plot=FALSE)
+#' intervalo_confianza_acf(p) #0.4382613intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
           ylim = NULL, main = NULL, ci.col = "blue", ci.type = c("white",
                                                                  "ma"), max.mfrow = 6, ask = Npgs > 1 && dev.interactive(),
           mar = if (nser > 2) c(3, 2, 2, 0.8) else par("mar"), oma = if (nser >
@@ -74,9 +97,6 @@ intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab =
   Npgs <- 1L
   nr <- nser
   if (nser > 1L) {
-    sn.abbr <- if (nser > 2L)
-      abbreviate(snames)
-    else snames
     if (nser > max.mfrow) {
       Npgs <- ceiling(nser/max.mfrow)
       nr <- ceiling(nser/Npgs)
