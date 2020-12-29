@@ -35,8 +35,14 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
 
 
   #obtener los intervalos de confianza dando el objeto
-  intervalo_confianza_acf(objeto_cf)
+  IC=intervalo_confianza_acf(objeto_cf)
+  mayores=abs(objeto_cf$acf)>IC
+  cat("\nLos siguientes elementos son propuestas de r:")
+  posibles_lags=objeto_cf$lag[mayores]
+  print(posibles_lags)
+  cat("Proponemos que r sea:",posibles_lags[length(posibles_lags)])
 
+  return(invisible(posibles_lags[length(posibles_lags)]))
 }
 
 
@@ -66,7 +72,8 @@ recomendacion_autocorrelaciones <- function(objeto_cf) {
 #' @examples
 #' base=data.frame(x=seq(Sys.Date(),by="days",length=20),y=1:20*3+runif(1))
 #' p=acf(base$y,plot=FALSE)
-#' intervalo_confianza_acf(p) #0.4382613intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
+#' intervalo_confianza_acf(p) #0.4382613
+intervalo_confianza_acf=function (x, ci = 0.95, type = "h", xlab = "Lag", ylab = NULL,
           ylim = NULL, main = NULL, ci.col = "blue", ci.type = c("white",
                                                                  "ma"), max.mfrow = 6, ask = Npgs > 1 && dev.interactive(),
           mar = if (nser > 2) c(3, 2, 2, 0.8) else par("mar"), oma = if (nser >
