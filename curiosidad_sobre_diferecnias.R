@@ -33,7 +33,9 @@ plot(diff(f,differences = 19))
 
 #spoiler, la diferenciacion 5 da los resultados que la 12 en adelante
 
-curva_exp <- function(finura=0.01,inicio=1,fin=20) {
+curva_exp <- function(finura=0.01,inicio=1,fin=20){
+    dev.off()
+    TSRutina::dev.TRS()
     a=seq(inicio,fin,finura)
     #luego tenemos que f(x)=e^(x) esta dado por
     f=exp(a)
@@ -44,6 +46,14 @@ curva_exp <- function(finura=0.01,inicio=1,fin=20) {
     #parece tener un coportamiento exponencial casi similar a la original
     #y si volvemos a diferenciar?
     plot(diff(f,differences = 2))
+    TSRutina::pausa()
+    plot(diff(f,differences = 3))
+    TSRutina::pausa()
+    plot(diff(f,differences = 4))
+    TSRutina::pausa()
+    plot(diff(f,differences = 5))
+    TSRutina::pausa()
+    plot(diff(f,differences = 6))
     TSRutina::pausa()
     #la duda es cuantas diferencias seriannecesarias para peder esa caracteristica exponencial?
     #Respuesta, para este caso 10-11
@@ -68,4 +78,5 @@ curva_exp <- function(finura=0.01,inicio=1,fin=20) {
     TSRutina::pausa()
 }
 
+curva_exp(finura = 2,fin = 60)
 
