@@ -11,28 +11,43 @@
 #'
 #' @param time_serie Un objeto series de tiempo
 #' @param type Tipo de estacionalidad.
+#' @param smooth Cual suavizamiento se usara para calcular la tendencia loess por default
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' #Graficando la descomposición
+#' plot(decompose_ts(AirPassengers))
+#'
+#'
 decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
                          smooth=c("loess","promedio_movil")) {
   x <- time_serie
   type <- match.arg(type)
+  smooth <- match.arg(smooth)
   l <- length(x)
   f <- frequency(x)
   if (f <= 1 || length(na.omit(x)) < 2 * f){
     stop("time series has no or less than 2 periods")
   }
 
-  a=data.frame(valor=x,fila=1:length(x))
-  #a
-  objeto=loess(valor~fila,data = a)
-  #plot(predict(objeto,data.frame(fila =a$fila)),type = "l",col="blue")
-  #lines(valor~fila,data = a)
+  if(smooth=="loess"){
+    a=data.frame(valor=x,fila=1:length(x))
+    #a
+    objeto=loess(valor~fila,data = a)
+    #plot(predict(objeto,data.frame(fila =a$fila)),type = "l",col="blue")
+    #lines(valor~fila,data = a)
 
-  trend <- predict(objeto,data.frame(fila =a$fila))
+    trend <- predict(objeto,data.frame(fila =a$fila))
+
+  }else{
+  if(smooth=="promedio_movil")
+    filter <- if(!f%%2){
+      c(0.5, rep_len(1, f - 1), 0.5)/f
+    }
+  trend <- filter(x, filter)
+  }
   season <- if (type == "additive")
     x - trend
   else x/trend
@@ -49,7 +64,7 @@ decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
                  random = if (type == "additive") x - seasonal - trend else x/seasonal/trend,
                  figure = figure, type = type), class = "decomposed.ts")
 }
-plot(decompose_ts(pp))
-
+#plot(decompose_ts(pp,smooth = "promedio_movil"))
+autoplot(decompose_ts(pp))
 
 
