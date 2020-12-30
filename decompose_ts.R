@@ -22,7 +22,7 @@
 #'
 #'
 decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
-                         smooth=c("loess","promedio_movil")) {
+                         smooth=c("loess","promedio_movil","lineal")) {
   x <- time_serie
   type <- match.arg(type)
   smooth <- match.arg(smooth)
@@ -42,11 +42,19 @@ decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
     trend <- predict(objeto,data.frame(fila =a$fila))
 
   }else{
-  if(smooth=="promedio_movil")
-    filter <- if(!f%%2){
-      c(0.5, rep_len(1, f - 1), 0.5)/f
-    }
-  trend <- filter(x, filter)
+    if(smooth=="promedio_movil"){
+        filter <- if(!f%%2){
+          c(0.5, rep_len(1, f - 1), 0.5)/f
+        }
+      trend <- filter(x, filter)
+    }else{
+    stopifnot(smooth=="lineal")
+    a=data.frame(valor=x,fila=1:length(x))
+    lineal=lm(valor~fila,data = a)
+
+    trend <- predict(lineal,data.frame(fila =a$fila))
+
+  }
   }
   season <- if (type == "additive")
     x - trend
@@ -64,7 +72,8 @@ decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
                  random = if (type == "additive") x - seasonal - trend else x/seasonal/trend,
                  figure = figure, type = type), class = "decomposed.ts")
 }
-#plot(decompose_ts(pp,smooth = "promedio_movil"))
-autoplot(decompose_ts(pp))
+autoplot(decompose_ts(pp,smooth = "promedio_movil"))
+autoplot(decompose_ts(pp)) #loess metodo
+autoplot(decompose_ts(pp,smooth = "lineal"))
 
 
