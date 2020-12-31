@@ -5,7 +5,7 @@ recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
 
   modelo_arma <- matriz_eacf(x,6,6,print_matrix)
 
-  matriz_true_false <- modelo_arma$symbol=="0"
+  matriz_true_false <- modelo_arma$symbol=="o"
 
   for (i in 1:7) {
     if(sum(matriz_true_false[,i])>0){
@@ -18,7 +18,7 @@ recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
           diagonal=matriz_true_false[j+1,i+1]
           #condicion algun vecino o diagonal no null
           if(izquierda+abajo+diagonal >2 | diagonal>0){
-            vec=c(i,j)
+            vec=c(i-1,j-1)
             return(vec)
           }
         }
@@ -27,7 +27,7 @@ recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
   }
 }
 
-recomendaciones_arma(AirPassengers)
+
 
 matriz_eacf <- function (z, ar.max = 7, ma.max = 13,print_matrix=TRUE)
 {
@@ -92,8 +92,12 @@ matriz_eacf <- function (z, ar.max = 7, ma.max = 13,print_matrix=TRUE)
   }
   rownames(symbol) <- 0:(ar.max - 1)
   colnames(symbol) <- 0:(ma.max - 1)
-  cat("AR/MA\n")
-  print(symbol, quote = FALSE)
+  cat("AR en Filas MA En columnas\n")#definir bien quien es quien
+  if(print_matrix){
+    print(symbol, quote = FALSE)
+  }
   invisible(list(eacf = eacfm, ar.max = ar.max, ma.ma = ma.max,
                  symbol = symbol))
 }
+
+recomendaciones_arma(AirPassengers)
