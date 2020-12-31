@@ -1,5 +1,20 @@
 
 
+#' Recomendación de modelo ARMA
+#'
+#' Usando una matriz eacf de TSA paqueteria se propone un posible vector con los valores de p y q de un modelos ARMA(p,q)
+#'
+#' Se utiliza un metodo de busqueda de esquinas para proponer el valor de
+#' p,q para ARMA(p,q).
+#'
+#' @param time_series Objeto Serie de tiempo
+#' @param print_matrix Indicador, imprimir o no matriz de eacf
+#'
+#' @return Vector de longitud 2, primera entrada valor de \bold{p}, segunda valor de \bold{q}
+#' @export
+#'
+#' @examples
+#' recomendaciones_arma(AirPassengers)
 recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
   x=time_series
 
