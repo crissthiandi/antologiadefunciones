@@ -72,6 +72,7 @@ decompose_ts <- function(time_serie,type=c("additive", "multiplicative"),
                  random = if (type == "additive") x - seasonal - trend else x/seasonal/trend,
                  figure = figure, type = type), class = "decomposed.ts")
 }
+pp=AirPassengers
 autoplot(decompose_ts(pp,smooth = "promedio_movil"))
 autoplot(decompose_ts(pp)) #loess metodo
 autoplot(decompose_ts(pp,smooth = "lineal"))
