@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' base=data.frame(x=seq(Sys.Date(),by="days",length=20),y=1:20*3+runif(20))
+#' base=data.frame(x=seq(Sys.Date(),by="days",length=200),y=1:20*3+runif(20))
 #' recomendacion_autocorrelaciones(acf(base$y,plot = FALSE))
 #'
 recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
@@ -34,37 +34,38 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
     ?recomendacion_autocorrelaciones
   }
   #si la salida es un vector de 3 elementos entonces hay dos parametros
-  serie=tryCatch(get(objeto_cf$series),error= function(e){message(e," \nSE busca otra entrada..."); return(NULL)})
+  serie=tryCatch(get(objeto_cf$series),error= function(e){message(e," \nSe busca otra entrada..."); return(NULL)})
   #en caso de serie NULL
   if(is.null(serie)){
     vec=strsplit(a[2],split = "$",fixed = TRUE)
-    message("\nSe busco la base de datos llamada: ",vec[[1]][1])
-    message("\nDentro de ella se busco el vector llamado: ",vec[[1]][2])
+    message("\nSe encontro la base de datos llamada: ",vec[[1]][1])
+    message("\nDentro de ella se encontro el vector llamado: ",vec[[1]][2])
     serie=eval(str2lang(a[2]))
-    cat("\nEl vector a trabajar es el siguiente:")
-    head(serie)
+    cat("\nLos primeros 6 valores de este vector son:\n")
+    print(head(serie))
   }
+  serie=ts(serie)
 
 
   if(objeto_cf$type=="partial"){
-    matriz=TSRutina::matriz_eacf(serie,ar.max = 1, ma.max = 15)
+    matriz=TSRutina::matriz_eacf(serie,ar.max = 1, ma.max = 15,print_matrix = FALSE)
     matriz=matriz$symbol=="o"
     for(i in 1:15){
       if(matriz[1,i]==1){
         order_=i
-        cat("\nProponemos AR(p) con p=:",order_)
+        cat("\nProponemos MA(q) con q=:",order_)
         break
       }
     }
 
   }
   if(objeto_cf$type=="correlation"){
-    matriz=TSRutina::matriz_eacf(serie,ar.max = 15,ma.max = 1)
+    matriz=TSRutina::matriz_eacf(serie,ar.max = 15,ma.max = 1,print_matrix = FALSE)
     matriz=matriz$symbol=="o"
     for(i in 1:15){
-      if(matriz[1,i]==1){
+      if(matriz[i,1]==1){
         order_=i
-        cat("\nProponemos MA(q) con q=:",order_)
+        cat("\nProponemos AR(p) con p=:",order_)
         break
       }
     }
