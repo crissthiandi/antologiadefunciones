@@ -3,9 +3,10 @@
 recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
   x=time_series
 
-  modelo_arma <- matriz_eacf(x,6,6,print_matrix)
+  modelo_arma <- matriz_eacf(x,7,7,print_matrix)
 
   matriz_true_false <- modelo_arma$symbol=="o"
+  matriz_true_false=matriz_true_false[-1,][,-1]
 
   for (i in 1:7) {
     if(sum(matriz_true_false[,i])>0){
@@ -18,7 +19,7 @@ recomendaciones_arma <- function(time_series,print_matrix=TRUE) {
           diagonal=matriz_true_false[j+1,i+1]
           #condicion algun vecino o diagonal no null
           if(izquierda+abajo+diagonal >2 | diagonal>0){
-            vec=c(i-1,j-1)
+            vec=c(i,j)
             return(vec)
           }
         }
@@ -101,3 +102,4 @@ matriz_eacf <- function (z, ar.max = 7, ma.max = 13,print_matrix=TRUE)
 }
 
 recomendaciones_arma(AirPassengers)
+recomendaciones_arma(AirPassengers,print_matrix = FALSE)
