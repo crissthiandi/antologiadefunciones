@@ -60,6 +60,8 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
         break
       }
     }
+    cat("El valor de la q propuesta es mayor a 15...")
+    order_=16
 
   }
   if(objeto_cf$type=="correlation"){
@@ -72,6 +74,8 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
         break
       }
     }
+    cat("El valor de la p propuesta es mayor a 15...")
+    order_=16
   }
 
 
