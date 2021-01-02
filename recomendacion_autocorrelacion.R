@@ -49,7 +49,7 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
   }
   serie=ts(serie)
 
-
+  order_=NULL
   if(objeto_cf$type=="partial"){
     matriz=TSRutina::matriz_eacf(serie,ar.max = 1, ma.max = 15,print_matrix = FALSE)
     matriz=matriz$symbol=="o"
@@ -60,8 +60,10 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
         break
       }
     }
-    cat("El valor de la q propuesta es mayor a 15...")
-    order_=16
+    if(is.null(order_)){
+      cat("El valor de la q propuesta es mayor a 15...")
+      order_=16
+    }
 
   }
   if(objeto_cf$type=="correlation"){
@@ -74,8 +76,10 @@ recomendacion_autocorrelaciones <- function(objeto_cf,print_IC=FALSE) {
         break
       }
     }
-    cat("El valor de la p propuesta es mayor a 15...")
-    order_=16
+    if(is.null(order_)){
+      cat("El valor de la p propuesta es mayor a 15...")
+      order_=16
+    }
   }
 
 
