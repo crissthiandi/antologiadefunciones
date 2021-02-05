@@ -6,7 +6,7 @@
 #dirección sera la forma en la que se le asigna una nueva sub ruta para 
 #guardar los png
 
-guardar_imagen= function(widget,direccion=NULL,fecha_registro=NULL,fecha_consulta=NULL){
+guardar_imagen= function(widget,direccion=NULL,fecha_registro=NULL,fecha_consulta=NULL,nombre_file=""){
   #se asignan el sistema de fechas, por defecto esta hecho solo es una precaución
   Sys.setlocale("LC_ALL", "Spanish")
   #se verifica si la fecha a consultar es null
@@ -56,19 +56,20 @@ guardar_imagen= function(widget,direccion=NULL,fecha_registro=NULL,fecha_consult
           #recursive T para en caso de no existir carpetas las crea
           #la dirección se nombra en base al dia de uso
         }
+        nombre_file_ruta=paste0("/",nombre_file,".html")
         
         ruta<- paste0(getwd(),direccion, #ruta considerada desde la raiz
                     stringr:::str_c("/widgets/graficas_",
                         stringr:::str_replace_all(fecha_registro, "-", "_"), "/"))
         
-        htmlwidgets:::saveWidget(widget, file=paste0(getwd(), "/widgets.html"))
+        htmlwidgets:::saveWidget(widget, file=paste0(getwd(),nombre_file_ruta))
         
-        webshot:::webshot("widgets.html",paste0(ruta,
-                    stringr:::str_c("widget_", stringr:::str_replace_all(
+        webshot:::webshot(paste0(nombre_file,".html"),paste0(ruta,
+                    stringr:::str_c(nombre_file, stringr:::str_replace_all(
                         fecha_registro,"-", "_"),".png")),vwidth = 1200,vheight = 768)
         
         #se verifica si se puede borrar un archivo, si se puede se borra
-        if(!tryCatch(expr = file.remove("widgets.html"))){
+        if(!tryCatch(expr = file.remove(nombre_file_ruta))){
           message("Este error es insignificante, puede ser ignorado")
         }
         message("La imagen se guardo en el directorio de trabajo")
@@ -86,4 +87,6 @@ guardar_imagen= function(widget,direccion=NULL,fecha_registro=NULL,fecha_consult
     install.packages("htmlwidgets")
   }
 }
+
+guardar_imagen(p,nombre_file = "holasss")
 
