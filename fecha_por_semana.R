@@ -5,22 +5,22 @@
 ## 29 de diciembre de 2019 **
 
 df=data.frame(
-        ano=c(2020,2019),
-        mes=c(1,4),
-        semana=c(1,17)
+        ano=c(2020,2019,2013),
+        mes=c(1,4,1),
+        semana=c(1,17,1)
 )
 df
 
-
 get_fecha=function(df){
+        require("lubridate")
         Fecha=rep("",nrow(df))
         for (i in 1:nrow(df)) {
                 a=df[i,]
                 fecha=as.Date(paste(a[1],a[2],1,sep = "-"))
-                x=lubridate::epiweek(fecha)
+                x=epiweek(fecha)
                 diff_=x-a[3]
                 fecha=fecha+as.numeric(-diff_)*7
-                b=lubridate::wday(fecha)-1
+                b=wday(fecha)-1
                 fecha=fecha-b
                 Fecha[i]=as.character(fecha)
         }
