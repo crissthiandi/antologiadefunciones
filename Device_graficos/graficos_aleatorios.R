@@ -31,7 +31,6 @@ for (i in seq(255, 0, -3)) {
 }
 box() # 补齐边
 
-
 # Le llaman arte con R, no es algo formal pero es interesante como podemos hacer que unas distribuciones aleatorias nos den graficos lindos 
 devAskNewPage(TRUE)
 par(mar = c(0.2, 0.2, 0.2, 0.2), mfrow = c(2, 2))
@@ -63,8 +62,7 @@ size = c(replicate(n, 1/rbeta(2, 1.5, 4)))
 center = t(replicate(n, runif(2)))
 center = center[rep(1:n, each = 2), ]
 color = apply(replicate(2 * n, sample(c(0:9, LETTERS[1:6]),
-                                      8, replace = TRUE)), 2, function(x) sprintf("#%s", paste(x,
-                                                                                               collapse = "")))
+                                      8, replace = TRUE)), 2, function(x) sprintf("#%s", paste(x,                                                                                           collapse = "")))
 points(center, cex = size, pch = rep(20:21, n), col = color)
 dev.off()
 
@@ -89,3 +87,12 @@ par(mar = rep(0, 4))
 plot(x, y, type = "n", ann = FALSE, axes = FALSE)
 
 polygon(x, y, col = sample(colors(), 151), border = NA)
+
+
+
+#incorpora el uso de usage() fun
+
+library(formatR)
+usage(grid)
+
+
