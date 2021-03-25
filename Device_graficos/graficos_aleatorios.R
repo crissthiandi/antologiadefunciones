@@ -4,12 +4,13 @@
 # Saludos lector, esto no tiene nada que ver con analisis de imagen o así, solo es codigo de un gran hacker de origen chino que
 # admiro mucho y me gusta ver su contenido ¿Que opinas de su forma de programar?
 
+# Ruta napoleonica ####
 troops <-
   read.table(system.file("extdata", "troops.txt", package = "MSG"), header = TRUE)
 cities <-
   read.table(system.file("extdata", "cities.txt", package = "MSG"), header = TRUE)
 library(ggplot2)
-p <- ggplot(cities, aes(x = long, y = lat)) # 框架
+p <- ggplot(cities, aes(x = long, y = lat))
 p <-
   p + geom_path(
     aes(
@@ -19,23 +20,23 @@ p <-
     ),
     data = troops,
     lineend = "round"
-  ) # 军队路线
-p <- p + geom_point() # 城市点
+  ) 
+p <- p + geom_point() 
 p <-
   p + geom_text(aes(label = city),
                 hjust = 0,
                 vjust = 1,
-                size = 2.5) # 城市名称
+                size = 2.5) 
 p <- p + scale_colour_manual(values = c("grey50", "red")) +
   scale_size(range = c(1, 10)) +
   theme(legend.position = "none") +
-  xlim(24, 39) # 细节调整工作
-print(p) # 打印全图
+  xlim(24, 39) 
+print(p) 
 
 #Esta padre la representación de la caminata napoloonica, no?
 
 
-
+# Degradado ####
 # Del como hacer graficos con degradados usando la paqueteria base de R
 xx <- c(1912, 1912:1971, 1971)
 yy <- c(min(nhtemp), nhtemp, min(nhtemp))
@@ -46,14 +47,15 @@ plot(xx,
      ylab = "Temperatures")
 for (i in seq(255, 0, -3)) {
   yy <-
-    c(45, nhtemp - (nhtemp - min(nhtemp)) * (1 - i / 255), 45) # rgb() 中的绿色成分逐渐变小
+    c(45, nhtemp - (nhtemp - min(nhtemp)) * (1 - i / 255), 45) # rgb() 
   polygon(xx, yy, col = rgb(1, i / 255, 0), border = NA)
-  # 读者可以在这里加上 Sys.sleep(0.05) 以便看清作图过程
+  # Sys.sleep(0.05) 
 }
-box() # 补齐边
+box()
 
-
-# Le llaman arte con R, no es algo formal pero es interesante como podemos hacer que unas distribuciones aleatorias nos den graficos lindos
+# Rte  ####
+# Le llaman arte con R, no es algo formal pero es interesante como podemos 
+# hacer que unas distribuciones aleatorias nos den graficos lindos
 size <- devAskNewPage(TRUE)
 par(mar = c(0.2, 0.2, 0.2, 0.2), mfrow = c(2, 2))
 for (n in c(42, 61, 64, 65)) {
@@ -76,8 +78,9 @@ for (n in c(42, 61, 64, 65)) {
 }
 
 
-
-# al menos en mi windows no funciona el paquete cairoDevice, supongo debe ser algo para linux que no corre en windows :c
+# Cairodevice ####
+# Al menos en mi windows no funciona el paquete cairoDevice, 
+# supongo debe ser algo para linux que no corre en windows :c
 library(cairoDevice)
 Cairo_png("points-desktop.png",
           width = 13.66 * 1.39,
@@ -100,7 +103,8 @@ dev.off()
 
 
 
-# Poligonos de
+# Poligonos de caledoscopio  ####
+
 set.seed(77)
 x = rnorm(3)
 y = rnorm(3)
@@ -126,7 +130,34 @@ polygon(x, y, col = sample(colors(), 151), border = NA)
 
 
 
-#incorpora el uso de usage() fun
+#incorpora el uso de usage() fun ####
 
 library(formatR)
 usage(grid)
+
+
+# Barras laterales####
+
+data(Export.USCN, package = "MSG")
+par(mar = c(4, 4.5, .1, 4.5))
+# 看似条形图，实为粗线条，宽度 lwd = 10
+plot(1:13, Export.USCN$Export,
+     xlab = "Year / Country",
+     ylab = "US Dollars ($10^{16}$)", xaxt = "n", type = "h",
+     lwd = 10, col = c(rep(2, 6), NA, rep(4, 6)), lend = 1,
+     panel.first = grid()
+)
+# 设置 x 轴的刻度标记：\n 的意思是换行符
+xlabel <- paste(Export.USCN$Year, "\n", Export.USCN$Country)
+xlabel[7] <- ""
+abline(v = 7, lty = 2) # 添加一条分隔线
+# 使用带有换行符的刻度标记
+axis(1, 1:13, labels = xlabel, tick = FALSE, cex.axis = 0.75)
+# 换算为人民币再计算另一个坐标轴刻度（汇率 8.27）
+ylabel <- pretty(Export.USCN$Export * 8.27)
+axis(4, at = ylabel / 8.27, labels = ylabel)
+mtext("Chinese RMB ($10^{16}$)", side = 4, line = 2)
+box()
+
+
+
