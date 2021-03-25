@@ -160,4 +160,22 @@ mtext("Chinese RMB ($10^{16}$)", side = 4, line = 2)
 box()
 
 
+# 七天之内的唯一访问次数数据（周一为 2010 年 8 月 2 日）
+auv <- c(939, 1005, 973, 910, 875, 658, 688)
+# 相邻两天作差
+diff(auv)
+par(mar = c(4, 4, .5, .1))
+plot(auv,
+     xlab = "Primera semana de agosto",
+     ylab = "Visitas absolutamente únicas", type = "n",
+     xlim = c(0.5, 7.5),
+     ylim = c(0, max(auv)),
+     xaxt = "n", panel.first = grid()
+)
+axis(1, 1:7, sprintf("semana%s", c(
+  "uno","dos","tres","cuatro","cinco","seis","siete"
+)))
+rect(1:7 - 0.3, c(0, auv[1:6]), 1:7 + 0.3, auv,
+     col = c(NA, ifelse(diff(auv) < 0, "red", NA))
+)
 
