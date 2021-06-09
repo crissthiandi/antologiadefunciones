@@ -35,4 +35,17 @@ fechas %>%
 Fechas_rango
 
 
+# Yucatan -----------------------------------------------------------------
 
+
+check_date = "https://covidmap.umd.edu/api/datesavail?country=Mexico&region=Yucat%C3%A1n"
+
+
+fechas <- solicitame(path = check_date)
+fechas %>% 
+    summarise(
+        Fecha_inicio = min(data.survey_date),
+        Fecha_final = max(data.survey_date)
+    ) -> Fechas_rango
+
+Fechas_rango
