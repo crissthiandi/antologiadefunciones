@@ -25,6 +25,14 @@ solicitame <- function(indicador=NULL,tipo = NULL,pais = NULL,region=NULL,
     
 }
 
-solicitame()
+fechas <- solicitame(path = check_date)
+fechas %>% 
+    summarise(
+        Fecha_inicio = min(data.survey_date),
+        Fecha_final = max(data.survey_date)
+    ) -> Fechas_rango
+
+Fechas_rango
+
 
 
