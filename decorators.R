@@ -104,6 +104,8 @@ print(add_15(10)) # espero 25
 print(add_15(-5)) # espero 10
 
 # crearemos un decorador
+library(magrittr)
+
 decorador_1 <- function(fun_fun){
   wrapper <- function(...){
     print("before Execution")
@@ -121,7 +123,13 @@ suma <- function(x,y){
 }
 
 decorado <- decorador_1(suma)
+decorado_pipe <- suma %>% decorador_1
+all.equal(decorador_1,decorado_pipe)
+
 salida_temp <- decorado(2,3)
+salida_temp
+
+salida_temp <- decorado_pipe(2,3)
 salida_temp
 
 #' and that is!!
@@ -162,3 +170,9 @@ decorado_(2,3)
 decorado_ <- decorador_1 %@% suma()
 decorado_ <- decorador_1() %@% suma
 decorado_ <- decorador_1() %@% suma()
+
+#' en la practica este operador `%@%` puede facilmente ser remplazado
+#' por %>% pero sin mensajes de errores aprueba de typos
+
+
+
