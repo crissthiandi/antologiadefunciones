@@ -126,3 +126,39 @@ salida_temp
 
 #' and that is!!
 #' ya tenemos un decorador de la función que funciona correctamente
+
+#' mejoresmos el asunto!
+#' como sabemos `%@%` no esta definido, ni en magrittr hay un uso
+#' por lo que podemos adoptar esta sintaxis
+
+`%@%` <- function(lhs, rhs){
+  
+  tryCatch(
+    is.function(lhs),
+    error = function(e){
+      stop("El decorador no es una función, remueve ()",call. = F)
+    }
+  )
+  tryCatch(
+    is.function(rhs),
+    error = function(e){
+      stop("El decorador no es una función, remueve ()",call. = F)
+    }
+  )
+  
+  # if(!clase){
+  #   rhs <- deparse(quote(suma())[[1]])
+  #   lhs <- deparse(quote(lhs))
+  #   return(eval(str2expression(paste(lhs,"(",rhs,")"))))
+  # }else{
+  #   return(lhs(rhs))
+  # }
+  return(lhs(rhs))
+}
+
+decorado_ <- decorador_1 %@% suma
+decorado_(2,3)
+
+decorado_ <- decorador_1 %@% suma()
+decorado_ <- decorador_1() %@% suma
+decorado_ <- decorador_1() %@% suma()
