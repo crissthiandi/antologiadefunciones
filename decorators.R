@@ -65,3 +65,40 @@ todays_date <- function()
 #' 
 detach("package:tinsel", unload = TRUE)
 
+
+#' función cloussere
+contador <- function(fun_start)
+{
+  wrapper <- function()
+  {
+    n <- fun_start
+    
+    while (n>0) {
+      print(sprintf('T-minus %d',n))
+      n <- n-1
+    }
+  }
+  return(wrapper) 
+  
+}
+#' retorna una función con memoria
+contador(5)
+#' ejecutemos la
+contador(5)()
+#' almacenado
+f1 <- contador(5)
+f1()
+
+#' usemos la memoria de closures en un trabajito xd
+
+create_adder <- function(x){
+  adder <- function(y){
+    return(x+y)
+  }
+  return(adder)
+}
+#' almacena el 15 como valor a recordar
+add_15 = create_adder(15)
+
+print(add_15(10)) # espero 25
+print(add_15(-5)) # espero 10
