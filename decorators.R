@@ -20,3 +20,48 @@
 #' al menos al dia 04/jul/2022 que avisa que la api es actualmente
 #' muy volatil, pues esta en desarrollo
 #' 
+#' get-starting
+tryCatch(
+  library(tinsel),
+  error = function(e){
+    message(e,'n')
+    devtools::install_github('nteetor/tinsel')
+    library(tinsel)
+  }
+)
+
+#' función decoradora
+print_start_end <- function(f)
+{
+  wrapper <- function(...)
+  {
+    print("Starting function call...") 
+    
+    f() 
+    
+    print("Finished function call...") 
+    
+  }
+  
+  return(wrapper) 
+  
+}
+
+#. print_start_end
+todays_date <- function()
+{
+  print(Sys.Date())
+  
+}
+
+#' con estos sencillos pasos cuando uses la función source_decorators
+#' entonces veras la magia...
+# source_decoratees("test_dec.R")
+
+#' el problema esta en el hecho de que los codigos R muchas veces son 
+#' usados al momento, y el tener que trabajar con decoradores de esta forma es algo incomodo.
+#' 
+#' podemos hacer un equivalente util?
+#' 
+detach("package:tinsel", unload = TRUE)
+
