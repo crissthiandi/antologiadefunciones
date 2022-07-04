@@ -102,3 +102,27 @@ add_15 = create_adder(15)
 
 print(add_15(10)) # espero 25
 print(add_15(-5)) # espero 10
+
+# crearemos un decorador
+decorador_1 <- function(fun_fun){
+  wrapper <- function(...){
+    print("before Execution")
+    fun_return <- fun_fun(...)
+    print(fun_return)
+    print("after Execution")
+    # returning the value to the original frame
+    return(fun_return)
+  }
+  return(wrapper)
+}
+
+suma <- function(x,y){
+  return(x+y)
+}
+
+decorado <- decorador_1(suma)
+salida_temp <- decorado(2,3)
+salida_temp
+
+#' and that is!!
+#' ya tenemos un decorador de la función que funciona correctamente
